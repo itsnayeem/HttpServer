@@ -1,0 +1,14 @@
+#!/bin/bash
+
+# source config
+. servers
+
+echo "Starting data server on $data port $dataport"
+ssh -f $data "cd backend; java -jar ~/project1.jar -d $dataport &"
+
+
+echo "Starting file server on $file1 port $file1port connecting to data $data port $dataport"
+ssh -f $file1 "cd frontend1; java -jar ~/project1.jar -f $file1port $data $dataport &"
+
+echo "Starting file server on $file2 port $file2port connecting to data $data port $dataport"
+ssh -f $file2 "cd frontend2; java -jar ~/project1.jar -f $file1port $data $dataport &"
